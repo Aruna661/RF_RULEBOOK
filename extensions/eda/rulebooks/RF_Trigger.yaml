@@ -10,7 +10,7 @@
       token: RFtoken
   rules:
    - name: trigger playbook
-     #condition: event.payload.queue.lower == 'automation'
+     condition: event.payload.queue == 'automation'
      action:
       run_job_template:
         name: Remedy_Force_Template
