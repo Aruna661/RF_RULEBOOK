@@ -1,0 +1,17 @@
+---
+- name: remedy force listner
+  hosts: localhost
+  sources:
+   - name: remedyforce_api_listener
+     type: ansible.eda.webhook
+     config:
+      hosts: 0.0.0.0
+      port: 5000
+      token: RFtoken
+  rules:
+   - name: trigger playbook
+     condition: event.payload.queue| lower == 'automation'
+     action:
+      run_job_template:
+        name: Remedy_Force_Template
+        organization: Default
