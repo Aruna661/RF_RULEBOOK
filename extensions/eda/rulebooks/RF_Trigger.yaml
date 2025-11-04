@@ -1,5 +1,5 @@
 ---
-- name: remedy force listner
+- name: remedy force listener
   hosts: localhost
   sources:
    - name: remedyforce_api_listener
@@ -10,7 +10,7 @@
       token: RFtoken
   rules:
    - name: trigger playbook
-     condition: event.payload.queue| lower == 'automation'
+     condition: event.payload.queue.lower() == 'automation'
      action:
       run_job_template:
         name: Remedy_Force_Template
