@@ -9,9 +9,9 @@
       port: 5000
       token: RFtoken
   rules:
-   - name: trigger playbook
-     condition: event.payload.queue == 'automation'
-     action:
+  - name: trigger playbook
+    condition: event.source.name == 'RF_Stream'
+    action:
       run_job_template:
         name: Remedy_Force_Template
         organization: Default
