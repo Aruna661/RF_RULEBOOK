@@ -1,17 +1,14 @@
----
-- name: remedy force listener
+- name: Salesforce Event Listener
   hosts: localhost
   sources:
-   - name: remedyforce_api_listener
-     type: ansible.eda.webhook
-     config:
-      hosts: 0.0.0.0
-      port: 5000
-      token: RFtoken
+    - redhat.salesforce:
+        client_id: "{{ client_id }}"
+        client_secret: "{{ client_secret }}"
+        security_token: "{{ security_token }}"
+        login_url: "{{ login_url }}"
   rules:
-  - name: trigger playbook
-    condition: event.payload.queue == "automation"
-    action:
-      run_job_template:
-        name: Remedy_Force_Template
-        organization: Default
+    - name: On Account Created
+      condition: true = true
+      action:
+        run_job_template:
+          name: test_template_hostname
