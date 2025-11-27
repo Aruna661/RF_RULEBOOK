@@ -12,9 +12,10 @@
         event.payload.incident.queue == "REG-SO-SrOps-Automation" and
         event.payload.incident.description is match("(?i)\\btest ticket\\b")
       action:
-        # Option A: run a playbook directly (works with ansible-rulebook CLI)
-        run_playbook:
-          name: playbooks/remedyforce_test_ticket.yml
+       run_job_template:
+          name: "Poll_test_Aruna"        # Job Template name in Controller
+          organization: "Prudential"                # Your org name in Controller
           extra_vars:
             incident_id: "{{ event.payload.incident.id }}"
             incident_number: "{{ event.payload.incident.number | default('') }}"
+
