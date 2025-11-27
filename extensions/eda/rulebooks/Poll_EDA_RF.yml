@@ -9,7 +9,7 @@
   rules:
     - name: trigger playbook for test tickets
       condition: >
-        event.payload.incident.queue == "REG-SO-SrOps-Automation" and
+        event.payload.incident.queue == "REG-SO-SrOps-Automation"
         #event.payload.incident.description is match("(?i)\\btest ticket\\b")
       action:
        run_job_template:
