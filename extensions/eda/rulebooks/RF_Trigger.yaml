@@ -8,7 +8,7 @@
         login_url: "{{ login_url }}"
   rules:
     - name: On Account Created
-      condition: true = true
+      condition: true
       action:
         run_job_template:
           name: test_template_hostname
