@@ -1,0 +1,20 @@
+---
+- name: Remedyforce webhook listener
+  hosts: localhost
+  sources:
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5023
+
+  rules:
+    - name: trigger playbook for test tickets
+      condition: >
+        event.payload.incident.queue == "REG-SO-SrOps-Automation" and
+        event.payload.incident.description is match("(?i)\\btest ticket\\b")
+      action:
+        # Option A: run a playbook directly (works with ansible-rulebook CLI)
+        run_playbook:
+          name: playbooks/remedyforce_test_ticket.yml
+          extra_vars:
+            incident_id: "{{ event.payload.incident.id }}"
+            incident_number: "{{ event.payload.incident.number | default('') }}"
