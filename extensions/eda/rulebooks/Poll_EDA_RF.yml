@@ -10,7 +10,7 @@
     - name: trigger playbook for test tickets
       condition: >-
         event.payload.task.queue == "REG-SO-SrOps-Automation"
-        #event.payload.incident.description is match("(?i)\\btest ticket\\b")
+        
       action:
        run_job_template:
           name: "Poll_test_Aruna"        # Job Template name in Controller
