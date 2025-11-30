@@ -18,7 +18,8 @@
           extra_vars:                       
             task_id: "{{ event.m.payload.task.id }}"
             task_queue: "{{ event.m.payload.task.queue }}"
-            task_number: "{{ event.m.payload.task.number_field }}
+            task_number: "{{ event.m.payload.task.number_field }}"
+            task_description: "{{ event.m.payload.task.description }}"
 
    
       
