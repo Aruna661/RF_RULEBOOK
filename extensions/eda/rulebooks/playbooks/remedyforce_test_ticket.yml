@@ -3,9 +3,9 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Log incident info
+    - name: display the ctask number and description 
       ansible.builtin.debug:
-        msg: "Triggering automation for task"
+        msg: "Triggering automation for task "
 
     # TODO: add your remediation tasks here
     # e.g., call modules, workflows, or other automations
