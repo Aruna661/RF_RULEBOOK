@@ -14,7 +14,12 @@
       action:
        run_job_template:
           name: "Poll_test_Aruna"        # Job Template name in Controller
-          organization: "Prudential"                # Your org name in Controller
+          organization: "Prudential"
+          extra_vars:                       
+            task_id: "{{ event.m.payload.task.id }}"
+            task_queue: "{{ event.m.payload.task.queue }}"
+            task_number: "{{ event.m.payload.task.number_field }}
+
    
       
 
