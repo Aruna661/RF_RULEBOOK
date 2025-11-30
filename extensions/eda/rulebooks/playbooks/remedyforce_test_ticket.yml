@@ -5,7 +5,13 @@
   tasks:
     - name: display the ctask number and description 
       ansible.builtin.debug:
-        msg: "Triggering automation for task "
+        msg: 
+          - "Task ID: {{ task_id }}"
+          - "Task Number: {{ task_number }}"
+          - "Queue: {{ task_queue }}"
+          - "Description: {{ task_description }}
+
+          
 
     # TODO: add your remediation tasks here
     # e.g., call modules, workflows, or other automations
