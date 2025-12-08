@@ -9,7 +9,7 @@
   rules:
     - name: trigger playbook for test tickets
       condition: >-
-        event.m.payload.task.queue == "REG-SO-SrOps-Automation"
+        event.payload.task.queue == "REG-SO-SrOps-Automation"
         
       action:
        run_job_template:
