@@ -5,6 +5,10 @@
     - ansible.eda.webhook:
         host: 0.0.0.0
         port: 5023
+        shutdown_on_idle: false
+        max_events: 0
+        timeout: 0
+
 
   rules:
     - name: trigger playbook for test tickets
