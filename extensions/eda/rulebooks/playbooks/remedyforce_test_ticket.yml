@@ -7,6 +7,6 @@
         msg: 
           - "Task ID: {{ task_id }}"
           - "Task Number: {{ task_number }}"
-          - "Queue: {{ task_queue }}"
-          - "Description: {{ task_description }}"
-          - "Summary : {{ summary }}"
+          #- "Queue: {{ task_queue }}"
+          #- "Description: {{ task_description }}"
+          #- "Summary : {{ summary }}"
