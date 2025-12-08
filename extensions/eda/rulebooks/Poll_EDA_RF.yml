@@ -21,6 +21,7 @@
             task_queue: "{{ event.payload.task.queue | default('') }}"
             task_number: "{{ event.payload.task.number_field | default('') }}"
             task_description: "{{ event.payload.task.description | default('') }}"
+            summary: "{{ event.payload.task.summary | default('') }}"
          
 
 
