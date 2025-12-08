@@ -11,12 +11,9 @@
   rules:
     - name: trigger playbook for test tickets
       condition: >-
-                (
-                 (event.payload is defined) and
-                 (event.payload.task is defined) and
-                 ((event.payload.task.queue | default("")) == "REG-SO-SrOps-Automation") and
-                  ("new server build" in (event.payload.task.summary | default("") | lower))
-                )
+               
+                 event.payload.task.queue | default("")) == "REG-SO-SrOps-Automation" 
+                 and "new server build" in event.payload.task.summary.lower()
 
       action:
         run_job_template:
