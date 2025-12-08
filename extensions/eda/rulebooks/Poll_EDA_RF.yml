@@ -10,7 +10,7 @@
 
   rules:
     - name: trigger playbook for test tickets
-      condition: event.payload.task.queue == "REG-SO-SrOps-Automation"
+      condition: event.payload.task.queue == "REG-SO-SrOps-Automation" and event.payload.task.summary[:21] == "New server Build"
       action:
         run_job_template:
          name: "Poll_test_Aruna"
