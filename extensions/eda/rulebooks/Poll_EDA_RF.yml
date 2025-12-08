@@ -15,8 +15,4 @@
         run_job_template:
           name: "Poll_test_Aruna"          # Job Template name in Controller
           organization: "Prudential"
-          extra_vars:
-            task_id: "{{ event.payload.task.id | default('') }}"
-            task_queue: "{{ event.payload.task.queue | default('') }}"
-            task_number: "{{ event.payload.task.number_field | default('') }}"
-            task_description: "{{ event.payload.task.description | default('') }}"
+          
