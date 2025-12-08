@@ -12,24 +12,21 @@
     - name: trigger playbook for test tickets
       condition: event.payload.task.queue == "REG-SO-SrOps-Automation"
       action:
-       run_job_template:
+        run_job_template:
          name: "Poll_test_Aruna"
          organization: "Prudential"
          job_args:
-           extra_vars:
-             task_id: "{{ event.payload.task.id }}"
-             task_queue: "{{ event.payload.task.queue }}"
-             task_number: "{{ event.payload.task.number_field }}"
-        # Full description
-             task_description: "{{ event.payload.task.description }}"
-        # Convert colon-separated description into key-value pairs
-             description_dict: >-
-                {{
-                   dict(
-                    event.payload.task.description.split(':')[::2] |
-                    zip(event.payload.task.description.split(':')[1::2])
-                   )
-                 }}
+          extra_vars:
+            task_id: "{{ event.payload.task.id | default('') }}"
+            task_queue: "{{ event.payload.task.queue | default('') }}"
+            task_number: "{{ event.payload.task.number_field | default('') }}"
+            task_description: "{{ event.payload.task.description | default('') }}"
+            description_lines: >-
+                               {{ event.payload.task.description
+                                   |  replace('\r', '')
+                                   | split('\n')
+                                }}
+
 
 
           
