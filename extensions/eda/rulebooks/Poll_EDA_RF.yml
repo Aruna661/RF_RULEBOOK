@@ -10,10 +10,7 @@
 
   rules:
     - name: trigger playbook for test tickets
-      condition: >-
-               
-                 event.payload.task.queue  == "REG-SO-SrOps-Automation" 
-                 and "new server build" in event.payload.task.summary.lower()
+      condition: "New server Build" in event.payload.task.summary
 
       action:
         run_job_template:
