@@ -12,7 +12,7 @@
     - name: trigger playbook for test tickets
       condition: >-
                
-                 event.payload.task.queue | default("")) == "REG-SO-SrOps-Automation" 
+                 event.payload.task.queue  == "REG-SO-SrOps-Automation" 
                  and "new server build" in event.payload.task.summary.lower()
 
       action:
