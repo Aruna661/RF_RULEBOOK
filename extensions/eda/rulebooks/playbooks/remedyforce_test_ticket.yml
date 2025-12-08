@@ -10,6 +10,10 @@
           - "Task Number: {{ task_number }}"
           - "Queue: {{ task_queue }}"
           - "Description: {{ task_description }}"
+          - "Description Dictionary: {{ description_dict }}"
+          - "DC Location: {{ description_dict['DC Location'] }}"
+          - "Number of Servers: {{ description_dict['Number of Servers']
+
 
           
 
