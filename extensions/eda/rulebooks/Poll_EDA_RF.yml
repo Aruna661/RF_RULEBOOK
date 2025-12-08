@@ -1,30 +1,22 @@
+
 ---
 - name: Remedyforce webhook listener
   hosts: localhost
+
   sources:
     - ansible.eda.webhook:
         host: 0.0.0.0
         port: 5023
-        shutdown_on_idle: false
-        max_events: 0
-        timeout: 0
-
 
   rules:
     - name: trigger playbook for test tickets
-      condition: >-
-        event.payload.task.queue == "REG-SO-SrOps-Automation"
-        
+      condition: event.payload.task.queue == "REG-SO-SrOps-Automation"
       action:
-       run_job_template:
-          name: "Poll_test_Aruna"        # Job Template name in Controller
+        run_job_template:
+          name: "Poll_test_Aruna"          # Job Template name in Controller
           organization: "Prudential"
-          extra_vars:                       
-            task_id: "{{ matching_events.m.payload.task.id |  default('') }}"
-            task_queue: "{{ matching_events.m.payload.task.queue  |  default('') }}"
-            task_number: "{{ matching_events.m.payload.task.number_field  |  default('') }}"
-            task_description: "{{ matching_events.m.payload.task.description  |  default('') }}"
-
-   
-      
-
+          extra_vars:
+            task_id: "{{ event.payload.task.id | default('') }}"
+            task_queue: "{{ event.payload.task.queue | default('') }}"
+            task_number: "{{ event.payload.task.number_field | default('') }}"
+            task_description: "{{ event.payload.task.description | default('') }}"
