@@ -1,98 +1,11 @@
-
----
-- name: Handle Remedyforce Task
+- name: Handle Remedyforce test ticket
   hosts: localhost
-  gather_facts: no
-
-  vars:
-    description_lines_default: "{{ (task_description | replace('\r','') | split('\n')) if task_description is defined else [] }}"
-    default_fs: "NTFS"
-
+  gather_facts: false
   tasks:
-    - name: Prepare description lines
-      set_fact:
-        desc_lines: "{{ description_lines | default(description_lines_default) | list }}"
-
-    # Identify the start of the disk block
-    - name: Find index of 'Size of Disk with File system structure info:' header
-      set_fact:
-        disk_header_index: >-
-          {{
-            (desc_lines | map('lower') | list)
-            | index('size of disk with file system structure info:')
-            if 'size of disk with file system structure info:' in (desc_lines | map('lower') | list)
-            else -1
-          }}
-
-    - name: Extract potential disk lines (after header)
-      set_fact:
-        raw_disk_lines: >-
-          {{
-            (disk_header_index != -1)
-            | ternary(
-                (desc_lines[disk_header_index+1:] | list),
-                []
-              )
-          }}
-
-    # Stop at the next blank or next "key: value" style line
-    - name: Trim disk lines until a blank or next key:value field
-      set_fact:
-        trimmed_disk_lines: >-
-          {{
-            raw_disk_lines
-            | map('trim')
-            | list
-            | select('string')                      # defensive
-            | list
-            | community.general.lists_until(        # custom helper approach if you have it; if not, we’ll filter below
-                'regex', '^\\s*$|^[^:]+:\\s+.+$'
-              )
-          }}
-      when: raw_disk_lines | length > 0
-      failed_when: false
-
-    # Fallback trim if the previous helper isn't available
-    - name: Fallback trim logic
-      set_fact:
-        trimmed_disk_lines: >-
-          {{
-            raw_disk_lines
-            | map('trim')
-            | list
-            | select('match', '^[A-Za-z]:\\\\\\s*\\d+\\s*GB', ignorecase=True)
-            | list
-          }}
-      when: trimmed_disk_lines is not defined
-
-    - name: Parse disk lines into structured list
-      set_fact:
-        disks: >-
-          {{
-            trimmed_disk_lines
-            | map('regex_search', '^(?P<letter>[A-Za-z]):\\\\\\s*(?P<size>\\d+)\\s*GB', ignorecase=True)
-            | select('string')
-            | map('regex_replace', '.*', '\\g<letter>:\\g<size>')
-            | map('split', ':')
-            | map('list')
-            | map('first')           # letter
-            | zip(
-                trimmed_disk_lines
-                | map('regex_search', '^(?P<letter>[A-Za-z]):\\\\\\s*(?P<size>\\d+)\\s*GB', ignorecase=True)
-                | select('string')
-                | map('regex_replace', '.*', '\\g<size>')
-                | map('int')
-              )
-            | list
-            | map('community.general.dict_kv', 'letter', 'size_gb')
-            | list
-          }}
-
-    - name: Add filesystem to each disk
-      set_fact:
-        disks: "{{ disks | map('combine', {'fs': default_fs}) | list }}"
-      when: disks is defined
-
-    - name: Show parsed disks
-      debug:
-        var: disks
+    - name: display the ctask number and description 
+      ansible.builtin.debug:
+        msg: 
+          - "Task ID: {{ task_id }}"
+          - "Task Number: {{ task_number }}"
+          - "Queue: {{ task_queue }}"
+          - "Description: {{ task_description }}"
