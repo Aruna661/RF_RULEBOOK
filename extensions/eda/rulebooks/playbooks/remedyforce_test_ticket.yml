@@ -9,3 +9,4 @@
           - "Task Number: {{ task_number }}"
           - "Queue: {{ task_queue }}"
           - "Description: {{ task_description }}"
+          - "Summary : {{ summary }}"
