@@ -18,11 +18,11 @@
          organization: "Prudential"
          job_args:
           extra_vars:
-            task_id: "{{ event.payload.task.id | default('') }}"
-            task_queue: "{{ event.payload.task.queue | default('') }}"
-            task_number: "{{ event.payload.task.number_field | default('') }}"
-            task_description: "{{ event.payload.task.description | default('') }}"
-            summary: "{{ event.payload.task.summary | default('') }}"
+            task_id: "{{ event.payload.task.id | default('') |string }}"
+            task_queue: "{{ event.payload.task.queue | default('')|string  }}"
+            task_number: "{{ event.payload.task.number_field | default('')|string  }}"
+            task_description: "{{ event.payload.task.description | default('')|string  }}"
+            summary: "{{ event.payload.task.summary | default('')|string  }}"
          
 
 
