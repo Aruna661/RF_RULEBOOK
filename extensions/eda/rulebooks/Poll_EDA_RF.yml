@@ -17,7 +17,7 @@
          organization: "Prudential"
          job_args:
           extra_vars:
-            task_id: "constant"
+            task_id: "{{ event.payload.task.number_field }}"
             #task_queue: "{{ event.payload.task.queue | default('')|string  }}"
             #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
