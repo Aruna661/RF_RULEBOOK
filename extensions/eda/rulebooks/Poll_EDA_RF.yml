@@ -9,11 +9,25 @@
         port: 5023
 
   rules:
-    - name: trigger playbook for test tickets
+    - name: trigger playbook for free ip allocation
       condition: event.payload.task.summary is search("To Request new IP")
       action:
         run_job_template:
          name: "Free_Ip_Allocation"
+         organization: "Prudential"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+            #task_queue: "{{ event.payload.task.queue | default('')|string  }}"
+            #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
+            #task_description: "{{ event.payload.task.description | default('')|string  }}"
+            #summary: "{{ event.payload.task.summary | default('')|string  }}"
+
+    - name: trigger playbook for os config
+      condition: event.payload.task.summary is search("OS basic config")
+      action:
+        run_job_template:
+         name: "Windows_Os_Config"
          organization: "Prudential"
          job_args:
           extra_vars:
