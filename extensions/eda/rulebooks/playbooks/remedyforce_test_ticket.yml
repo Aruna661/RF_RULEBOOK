@@ -5,8 +5,8 @@
     - name: display the ctask number and description 
       ansible.builtin.debug:
         msg: 
-          - "Task ID: {{ task_id }}"
-          - "Task Number: {{ task_number }}"
+          - "Task ID: {{ task_id |string  }}"
+          - "Task Number: {{ task_number |string  }}"
           #- "Queue: {{ task_queue }}"
           #- "Description: {{ task_description }}"
           #- "Summary : {{ summary }}"
