@@ -16,8 +16,7 @@
         run_job_template:
          name: "Poll_test_Aruna"
          organization: "Prudential"
-         job_args:
-          extra_vars:
+         extra_vars:
             task_id: "constant"
             #task_queue: "{{ event.payload.task.queue | default('')|string  }}"
             #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
