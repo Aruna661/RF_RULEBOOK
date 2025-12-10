@@ -10,7 +10,7 @@
 
   rules:
     - name: trigger playbook for vm build
-      condition: event.payload.task.summary is search("Base image Server Build ")
+      condition: event.payload.task.summary is search("Server Build")
       action:
         run_job_template:
          name: "Get Data For VM New build"
