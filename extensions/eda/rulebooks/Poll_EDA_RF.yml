@@ -80,11 +80,11 @@
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
 
-     - name: trigger playbook for Crowdstrike
-       condition: event.payload.task.summary is search("Dynatrace")
-       action:
-        run_job_template:
-         name: "Dynatrace_Installation"
+    - name: trigger playbook for Crowdstrike
+      condition: event.payload.task.summary is search("Dynatrace")
+      action:
+         run_job_template:
+          name: "Dynatrace_Installation"
          organization: "Prudential"
          job_args:
           extra_vars:
