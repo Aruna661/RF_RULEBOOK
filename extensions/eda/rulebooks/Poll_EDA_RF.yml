@@ -52,7 +52,7 @@
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
 
     - name: trigger playbook for SCCM
-      condition: event.payload.task.summary is search("OR Process")
+      condition: event.payload.task.summary is search("SCCM OR Package")
       action:
         run_job_template:
          name: "SCCM_Onboarding"
