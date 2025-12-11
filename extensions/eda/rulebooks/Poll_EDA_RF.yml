@@ -135,6 +135,19 @@
             #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
+    - name: trigger playbook for Cyberark PID onboarding
+      condition: event.payload.task.summary is search("Cyberark")
+      action:
+         run_job_template:
+          name: "CyberArk Onboarding Template"
+          organization: "Prudential"
+          job_args:
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+            #task_queue: "{{ event.payload.task.queue | default('')|string  }}"
+            #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
+            #task_description: "{{ event.payload.task.description | default('')|string  }}"
+            #summary: "{{ event.payload.task.summary | default('')|string  }}"
     
     - name: trigger playbook for DNS registration
       condition: event.payload.task.summary is search("DNS")
