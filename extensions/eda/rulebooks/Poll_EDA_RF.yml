@@ -108,6 +108,20 @@
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
 
+    - name: trigger playbook for Discovery on boarding
+      condition: event.payload.task.summary is search("Discovery")
+      action:
+         run_job_template:
+          name: "Discovery_Onboarding"
+          organization: "Prudential"
+          job_args:
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+            #task_queue: "{{ event.payload.task.queue | default('')|string  }}"
+            #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
+            #task_description: "{{ event.payload.task.description | default('')|string  }}"
+            #summary: "{{ event.payload.task.summary | default('')|string  }}"
+
     - name: trigger playbook for DNS registration
       condition: event.payload.task.summary is search("DNS")
       action:
