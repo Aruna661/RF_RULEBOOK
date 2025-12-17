@@ -135,6 +135,7 @@
             #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
+            
     - name: trigger playbook for Cyberark PID onboarding
       condition: event.payload.task.summary is search("Cyberark")
       action:
@@ -149,7 +150,7 @@
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
     
-    - name: trigger playbook for vm build
+    - name: trigger playbook for DNS check
       condition: event.payload.task.summary is search("DNS")
       action:
         run_workflow_template:
