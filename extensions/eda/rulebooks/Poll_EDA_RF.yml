@@ -66,7 +66,7 @@
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
 
     - name: trigger playbook for Forcepoint
-      condition: event.payload.task.summary is search("OR Process")
+      condition: event.payload.task.summary is search("Forcepoint")
       action:
         run_job_template:
          name: "Forcepoint_Onboarding"
