@@ -22,6 +22,21 @@
             #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
+
+    - name: trigger playbook for DNS check
+      condition: event.payload.task.summary is search("DNS")
+      action:
+        run_workflow_template:
+         name: "DNS A Record Creation WorkFlow"
+         organization: "Default"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+            #task_queue: "{{ event.payload.task.queue | default('')|string  }}"
+            #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
+            #task_description: "{{ event.payload.task.description | default('')|string  }}"
+            #summary: "{{ event.payload.task.summary | default('')|string  }}"
+
             
     - name: trigger playbook for free ip allocation
       condition: event.payload.task.summary is search("IP Address Update")
@@ -150,19 +165,6 @@
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
     
-    - name: trigger playbook for DNS check
-      condition: event.payload.task.summary is search("DNS")
-      action:
-        run_workflow_template:
-         name: "DNS A Record Creation WorkFlow"
-         organization: "Default"
-         job_args:
-          extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-            #task_queue: "{{ event.payload.task.queue | default('')|string  }}"
-            #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
-            #task_description: "{{ event.payload.task.description | default('')|string  }}"
-            #summary: "{{ event.payload.task.summary | default('')|string  }}"
-
+   
 
           
