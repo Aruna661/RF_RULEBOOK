@@ -1,14 +1,169 @@
-- name: Salesforce Event Listener
+
+---
+- name: Remedyforce webhook listener
   hosts: localhost
+
   sources:
-    - redhat.salesforce:
-        client_id: "{{ client_id }}"
-        client_secret: "{{ client_secret }}"
-        security_token: "{{ security_token }}"
-        login_url: "{{ login_url }}"
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5023
+
   rules:
-    - name: On Account Created
-      condition: true
+    - name: trigger playbook for vm build
+      condition: event.payload.task.summary is search("Server Build")
+      action:
+        run_workflow_template:
+         name: "vm test"
+         organization: "Default"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+
+   - name: trigger playbook for Backup server
+      condition: event.payload.task.summary is search("Backup server")
+      action:
+        run_workflow_template:
+         name: "backup task"
+         organization: "Default"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+           
+
+    - name: trigger playbook for DNS check
+      condition: event.payload.task.summary is search("DNS")
+      action:
+        run_workflow_template:
+         name: "DNS A Record Creation WorkFlow"
+         organization: "Default"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+          
+
+            
+    - name: trigger playbook for free ip allocation
+      condition: event.payload.task.summary is search("IP Address Update")
       action:
         run_job_template:
-          name: test_template_hostname
+         name: "Free_Ip_Allocation"
+         organization: "Prudential"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+           
+
+    - name: trigger playbook for os config
+      condition: event.payload.task.summary is search("OS basic config")
+      action:
+        run_job_template:
+         name: "Windows_Os_Config"
+         organization: "Prudential"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+           
+
+    - name: trigger playbook for SCCM
+      condition: event.payload.task.summary is search("SCCM OR Package")
+      action:
+        run_job_template:
+         name: "SCCM_Onboarding"
+         organization: "Prudential"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+          
+
+    - name: trigger playbook for Forcepoint
+      condition: event.payload.task.summary is search("Forcepoint")
+      action:
+        run_job_template:
+         name: "Forcepoint_Onboarding"
+         organization: "Prudential"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+           
+
+
+    - name: trigger playbook for Crowdstrike
+      condition: event.payload.task.summary is search("Crowdstrike")
+      action:
+        run_job_template:
+         name: "Crowdstrike_Onboarding"
+         organization: "Prudential"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+            
+
+    - name: trigger playbook for Dynatrace
+      condition: event.payload.task.summary is search("Dynatrace")
+      action:
+         run_job_template:
+          name: "Dynatrace_Installation"
+          organization: "Prudential"
+          job_args:
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+            #task_queue: "{{ event.payload.task.queue | default('')|string  }}"
+            #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
+            #task_description: "{{ event.payload.task.description | default('')|string  }}"
+            #summary: "{{ event.payload.task.summary | default('')|string  }}"
+
+    - name: trigger playbook for Discovery on boarding
+      condition: event.payload.task.summary is search("Discovery")
+      action:
+         run_job_template:
+          name: "Discovery_Onboarding"
+          organization: "Prudential"
+          job_args:
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+            
+
+    - name: trigger playbook for CMDB status update
+      condition: event.payload.task.summary is search("CMDB")
+      action:
+         run_job_template:
+          name: "CMDB_Onboarding_Status"
+          organization: "Prudential"
+          job_args:
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+            
+            
+    - name: trigger playbook for Cyberark PID onboarding
+      condition: event.payload.task.summary is search("Cyberark")
+      action:
+         run_job_template:
+          name: "CyberArk Onboarding Template"
+          organization: "Default"
+          job_args:
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+
+    - name: trigger playbook for Splunk task
+      condition: event.payload.task.summary is search("Splunk")
+      action:
+         run_workflow_template:
+          name: "splunk workflow"
+          organization: "Default"
+          job_args:
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field | default('')|string  }}"
+
+    - name: trigger playbook for Qualys task
+      condition: event.payload.task.summary is search("Qualys")
+      action:
+         run_job_template:
+          name: "Qualys On-Boarding Template"
+          organization: "Prudential"
+          job_args:
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field | default('')  }}"
+           
+            #summary: "{{ event.payload.task.summary | default('')|string  }}"
+    
+  
