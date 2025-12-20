@@ -163,6 +163,16 @@
           job_args:
            extra_vars:
             task_number: "{{ event.payload.task.number_field | default('')  }}"
+
+    - name: trigger playbook for Monitoring
+      condition: event.payload.task.summary is search("Patrol Agent")
+      action:
+        run_workflow_template:
+         name: "Patrol Agent Installation Workflow"
+         organization: "Default"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
            
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
     
