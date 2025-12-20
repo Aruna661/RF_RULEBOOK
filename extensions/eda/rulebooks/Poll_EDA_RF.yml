@@ -144,9 +144,9 @@
            extra_vars:
             task_number: "{{ event.payload.task.number_field | default('')|string  }}"
 
-     - name: trigger playbook for Qualys task
-       condition: event.payload.task.summary is search("Qualys")
-       action:
+    - name: trigger playbook for Qualys task
+      condition: event.payload.task.summary is search("Qualys")
+      action:
          run_job_template:
           name: "Qualys On-Boarding Template"
           organization: "Default"
