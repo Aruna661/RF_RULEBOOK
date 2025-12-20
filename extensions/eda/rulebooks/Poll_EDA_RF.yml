@@ -142,7 +142,7 @@
           organization: "Default"
           job_args:
            extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
+            task_number: "{{ event.payload.task.number_field | default('')|string  }}"
            
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
     
