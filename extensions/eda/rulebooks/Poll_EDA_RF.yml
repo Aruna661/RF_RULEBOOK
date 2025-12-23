@@ -10,7 +10,7 @@
 
   rules:
     - name: trigger playbook for vm build
-      condition: event.payload.task.summary is search("Server Build")
+      condition: event.payload.task.summary is search("Base image Server Build")
       action:
         run_workflow_template:
          name: "vm test"
