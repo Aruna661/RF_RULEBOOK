@@ -138,7 +138,7 @@
       action:
          run_job_template:
           name: "CyberArk Onboarding Template"
-          organization: "Default"
+          organization: "Prudential"
           job_args:
            extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
