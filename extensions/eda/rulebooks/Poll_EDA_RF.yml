@@ -20,7 +20,7 @@
             task_number: "{{ event.payload.task.number_field }}"
 
     - name: trigger playbook for Backup server
-      condition: event.payload.task.summary is search("Backup server")
+      condition: event.payload.task.summary is search("Backup Configuration")
       action:
         run_workflow_template:
          name: "backup task"
@@ -31,7 +31,7 @@
            
 
     - name: trigger playbook for DNS check
-      condition: event.payload.task.summary is search("DNS")
+      condition: event.payload.task.summary is search("To register server in DNS. - Enrolment on Scanning Tool")
       action:
         run_workflow_template:
          name: "DNS A Record Creation WorkFlow"
@@ -75,7 +75,7 @@
           
 
     - name: trigger playbook for Forcepoint
-      condition: event.payload.task.summary is search("Forcepoint")
+      condition: event.payload.task.summary is search("ForcePoint Update")
       action:
         run_job_template:
          name: "Forcepoint_Onboarding"
@@ -112,7 +112,7 @@
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
 
     - name: trigger playbook for Discovery on boarding
-      condition: event.payload.task.summary is search("Discovery")
+      condition: event.payload.task.summary is search("Helix Discovery Scanning")
       action:
          run_job_template:
           name: "Discovery_Onboarding"
@@ -144,7 +144,7 @@
             task_number: "{{ event.payload.task.number_field }}"
 
     - name: trigger playbook for Splunk task
-      condition: event.payload.task.summary is search("Splunk")
+      condition: event.payload.task.summary is search("Request to register the server in the Splunk")
       action:
          run_job_template:
           name: "Splunk_On_Boarding"
@@ -154,7 +154,7 @@
             task_number: "{{ event.payload.task.number_field | default('')|string  }}"
 
     - name: trigger playbook for Qualys task
-      condition: event.payload.task.summary is search("Qualys")
+      condition: event.payload.task.summary is search("Request for Qualys Update")
       action:
          run_job_template:
           name: "Qualys On-Boarding Template"
