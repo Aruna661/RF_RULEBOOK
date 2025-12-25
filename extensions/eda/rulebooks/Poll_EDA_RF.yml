@@ -164,7 +164,7 @@
             task_number: "{{ event.payload.task.number_field | default('')  }}"
 
     - name: trigger playbook for Monitoring
-      condition: event.payload.task.summary is search("Patrol Agent")
+      condition: event.payload.task.summary is search("Monitoring")
       action:
         run_workflow_template:
          name: "Patrol Agent Installation Workflow"
