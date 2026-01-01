@@ -100,7 +100,7 @@
     - name: trigger playbook for Dynatrace
       condition: event.payload.task.summary is search("Monitoring")
       action:
-         run_job_template:
+       - run_job_template:
           name: "Dynatrace_Installation"
           organization: "Prudential"
           job_args:
@@ -110,6 +110,13 @@
             #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
+
+       - run_workflow_template:
+           name: "Patrol Agent Installation Workflow"
+           organization: "Default"
+           job_args:
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
 
     - name: trigger playbook for Discovery on boarding
       condition: event.payload.task.summary is search("Helix Discovery Scanning")
@@ -173,15 +180,8 @@
            extra_vars:
             task_number: "{{ event.payload.task.number_field | default('')  }}"
 
-    - name: trigger playbook for Monitoring
-      condition: event.payload.task.summary is search("Monitoring")
-      action:
-        run_workflow_template:
-         name: "Patrol Agent Installation Workflow"
-         organization: "Default"
-         job_args:
-          extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
+   
+       
            
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
     
