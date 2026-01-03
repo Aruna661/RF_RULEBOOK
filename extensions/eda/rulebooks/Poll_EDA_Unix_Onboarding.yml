@@ -14,7 +14,7 @@
       action:
         run_workflow_template:
          name: "linux server build - workflow"
-         organization: "Prudential"
+         organization: "Default"
          job_args:
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
