@@ -13,21 +13,21 @@
       condition: event.payload.task.summary is search("Base image Server Build")
       action:
         run_workflow_template:
-         name: "vm test"
-         organization: "Default"
+         name: "linux server build - workflow"
+         organization: "Prudential"
          job_args:
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
 
-    - name: trigger playbook for Backup server
-      condition: event.payload.task.summary is search("Backup Configuration")
-      action:
-        run_workflow_template:
-         name: "backup task"
-         organization: "Default"
-         job_args:
-          extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
+    #- name: trigger playbook for Backup server
+    #  condition: event.payload.task.summary is search("Backup Configuration")
+    #  action:
+    #    run_workflow_template:
+    #     name: "backup task"
+    #     organization: "Default"
+    #     job_args:
+    #     extra_vars:
+    #        task_number: "{{ event.payload.task.number_field }}"
            
 
     - name: trigger playbook for DNS check
@@ -56,67 +56,45 @@
       condition: event.payload.task.summary is search("OS Configuration")
       action:
         run_job_template:
-         name: "Windows_Os_Config"
-         organization: "Prudential"
-         job_args:
-          extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-           
-
-    - name: trigger playbook for SCCM
-      condition: event.payload.task.summary is search("SCCM OR Package")
-      action:
-        run_job_template:
-         name: "SCCM_Onboarding"
+         name: "OS_Config_Unix"
          organization: "Prudential"
          job_args:
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
           
 
-    - name: trigger playbook for Forcepoint
-      condition: event.payload.task.summary is search("ForcePoint Update")
-      action:
-        run_job_template:
-         name: "Forcepoint_Onboarding"
-         organization: "Prudential"
-         job_args:
-          extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-           
-
 
     - name: trigger playbook for Crowdstrike
       condition: event.payload.task.summary is search("CrowdStrike")
       action:
         run_job_template:
-         name: "Crowdstrike_Onboarding"
+         name: "CrowdStrike_Onboarding_Unix"
          organization: "Prudential"
          job_args:
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
             
 
-    - name: trigger playbook for Dynatrace
-      condition: event.payload.task.summary is search("Monitoring")
-      actions:
-       - run_job_template:
-          name: "Dynatrace_Installation"
-          organization: "Prudential"
-          job_args:
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
+    #- name: trigger playbook for Dynatrace
+    #  condition: event.payload.task.summary is search("Monitoring")
+    #  actions:
+    #   - run_job_template:
+    #      name: "Dynatrace_Installation"
+    #      organization: "Prudential"
+    #      job_args:
+    #       extra_vars:
+    #        task_number: "{{ event.payload.task.number_field }}"
             #task_queue: "{{ event.payload.task.queue | default('')|string  }}"
             #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
 
-       - run_workflow_template:
-           name: "Patrol Agent Installation Workflow"
-           organization: "Default"
-           job_args:
-            extra_vars:
-              task_number: "{{ event.payload.task.number_field }}"
+     #  - run_workflow_template:
+     #      name: "Patrol Agent Installation Workflow"
+     #      organization: "Default"
+     #      job_args:
+     #       extra_vars:
+      #        task_number: "{{ event.payload.task.number_field }}"
 
     - name: trigger playbook for Discovery on boarding
       condition: event.payload.task.summary is search("Helix Discovery Scanning")
@@ -154,7 +132,7 @@
       condition: event.payload.task.summary is search("Enroll PID in CyberArk")
       action:
          run_job_template:
-          name: "CyberArk Onboarding Template"
+          name: "CyberArk_Unix_Onboarding"
           organization: "Prudential"
           job_args:
            extra_vars:
@@ -174,7 +152,7 @@
       condition: event.payload.task.summary is search("Request for Qualys Update")
       action:
          run_job_template:
-          name: "Qualys On-Boarding Template"
+          name: "Qualys_Unix_Onboarding"
           organization: "Prudential"
           job_args:
            extra_vars:
