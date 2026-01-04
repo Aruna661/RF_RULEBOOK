@@ -19,15 +19,15 @@
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
 
-    #- name: trigger playbook for Backup server
-    #  condition: event.payload.task.summary is search("Backup Configuration")
-    #  action:
-    #    run_workflow_template:
-    #     name: "backup task"
-    #     organization: "Default"
-    #     job_args:
-    #     extra_vars:
-    #        task_number: "{{ event.payload.task.number_field }}"
+    - name: trigger playbook for Backup server
+      condition: event.payload.task.summary is search("Backup Configuration")
+      action:
+        run_workflow_template:
+         name: "backup task"
+         organization: "Default"
+         job_args:
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
            
 
     - name: trigger playbook for DNS check
