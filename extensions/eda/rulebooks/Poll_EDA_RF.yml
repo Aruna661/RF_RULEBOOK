@@ -3,10 +3,10 @@
 - name: Remedyforce webhook listener
   hosts: localhost
   vars:
-    inventory_map:
-      "SG": 6      
-      "MY": 4     
-      "HK": 7
+   inventory_map:
+    SG: 6      
+    MY: 4     
+    HK: 7
 
   sources:
     - ansible.eda.webhook:
@@ -14,6 +14,16 @@
         port: 5023
 
   rules:
+    
+    - name: show vars exist
+      condition: event.payload is defined
+      action:
+        debug:
+          msg:
+            - "inventory_map: {{ inventory_map }}"
+            - "keys: {{ inventory_map.keys() | list }}"
+            - "HK -> {{ inventory_map['HK'] }}
+
     - name: trigger playbook for vm build
       condition: event.payload.task.summary is search("Base image Server Build")
       action:
