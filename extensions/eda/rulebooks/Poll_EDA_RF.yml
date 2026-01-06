@@ -22,7 +22,7 @@
           msg:
             - "inventory_map: {{ inventory_map }}"
             - "keys: {{ inventory_map.keys() | list }}"
-            - "HK -> {{ inventory_map['HK'] }}
+            - "HK -> {{ inventory_map['HK'] }}"
 
     - name: trigger playbook for vm build
       condition: event.payload.task.summary is search("Base image Server Build")
