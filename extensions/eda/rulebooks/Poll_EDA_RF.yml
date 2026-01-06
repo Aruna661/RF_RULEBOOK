@@ -2,6 +2,11 @@
 ---
 - name: Remedyforce webhook listener
   hosts: localhost
+  vars:
+    inventory_map:
+      "SG": 6      
+      "MY": 4     
+      "HK": 7
 
   sources:
     - ansible.eda.webhook:
@@ -19,11 +24,7 @@
           inventory: "{{ inventory_map[event.payload.dclocation] }}"
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
-      vars:
-        inventory_map:
-          "SG": 6      
-          "MY": 4     
-          "HK": 7
+     
 
     - name: trigger playbook for Backup server
       condition: event.payload.task.summary is search("Backup Configuration")
