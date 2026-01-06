@@ -21,7 +21,7 @@
          name: "vm test"
          organization: "Default"
          job_args:
-          inventory: "{{ inventory_map[event.payload.dclocation] }}"
+          inventory: "{{ inventory_map[event.payload.task.dclocation] }}"
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
      
