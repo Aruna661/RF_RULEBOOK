@@ -31,9 +31,10 @@
          name: "backup task"
          organization: "Default"
          job_args:
+          inventory: "{{ event.payload.task.locationid }}"
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
-           
+     
 
     - name: trigger playbook for DNS check
       condition: event.payload.task.summary is search("To register server in DNS. - Enrolment on Scanning Tool")
@@ -42,8 +43,10 @@
          name: "DNS A Record Creation WorkFlow"
          organization: "Default"
          job_args:
+          inventory: "{{ event.payload.task.locationid }}"
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
+     
           
 
             
@@ -54,8 +57,10 @@
          name: "Free_Ip_Allocation"
          organization: "Prudential"
          job_args:
+          inventory: "{{ event.payload.task.locationid }}"
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
+     
            
     - name: trigger playbook for os config
       condition: event.payload.task.summary is search("OS Configuration")
@@ -64,8 +69,10 @@
          name: "Windows_Os_Config"
          organization: "Prudential"
          job_args:
+          inventory: "{{ event.payload.task.locationid }}"
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
+     
            
 
     - name: trigger playbook for SCCM
@@ -75,8 +82,10 @@
          name: "SCCM_Onboarding"
          organization: "Prudential"
          job_args:
+          inventory: "{{ event.payload.task.locationid }}"
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
+     
           
 
     - name: trigger playbook for Forcepoint
@@ -86,8 +95,10 @@
          name: "Forcepoint_Onboarding"
          organization: "Prudential"
          job_args:
+          inventory: "{{ event.payload.task.locationid }}"
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
+     
            
 
 
@@ -98,8 +109,10 @@
          name: "Crowdstrike_Onboarding"
          organization: "Prudential"
          job_args:
+          inventory: "{{ event.payload.task.locationid }}"
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
+     
             
 
     - name: trigger playbook for Dynatrace
@@ -109,8 +122,10 @@
           name: "Dynatrace_Installation"
           organization: "Prudential"
           job_args:
+           inventory: "{{ event.payload.task.locationid }}"
            extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
+             task_number: "{{ event.payload.task.number_field }}"
+     
             #task_queue: "{{ event.payload.task.queue | default('')|string  }}"
             #task_number: "{{ event.payload.task.number_field | default('')|string  }}"
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
@@ -120,8 +135,10 @@
            name: "Patrol Agent Installation Workflow"
            organization: "Default"
            job_args:
+            inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
+     
 
     - name: trigger playbook for Discovery on boarding
       condition: event.payload.task.summary is search("Helix Discovery Scanning")
@@ -130,8 +147,10 @@
           name: "Discovery_Onboarding"
           organization: "Prudential"
           job_args:
+           inventory: "{{ event.payload.task.locationid }}"
            extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
+             task_number: "{{ event.payload.task.number_field }}"
+     
             
 
     - name: trigger playbook for CMDB status update
@@ -141,8 +160,10 @@
           name: "CMDB_Onboarding_Status"
           organization: "Prudential"
           job_args:
+           inventory: "{{ event.payload.task.locationid }}"
            extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
+     
 
     - name: trigger playbook for CMDB status live update
       condition: event.payload.task.summary is search("Live")
@@ -151,8 +172,10 @@
           name: "CMDB_live_Onboarding"
           organization: "Prudential"
           job_args:
+           inventory: "{{ event.payload.task.locationid }}"
            extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
+     
             
             
     - name: trigger playbook for Cyberark PID onboarding
@@ -162,8 +185,10 @@
           name: "CyberArk Onboarding Template"
           organization: "Prudential"
           job_args:
+           inventory: "{{ event.payload.task.locationid }}"
            extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
+     
 
     - name: trigger playbook for Splunk task
       condition: event.payload.task.summary is search("Request to register the server in the Splunk")
@@ -172,8 +197,10 @@
           name: "Splunk_On_Boarding"
           organization: "Prudential"
           job_args:
+           inventory: "{{ event.payload.task.locationid }}"
            extra_vars:
-            task_number: "{{ event.payload.task.number_field | default('')|string  }}"
+            task_number: "{{ event.payload.task.number_field }}"
+     
 
     - name: trigger playbook for Qualys task
       condition: event.payload.task.summary is search("Request for Qualys Update")
@@ -182,8 +209,10 @@
           name: "Qualys On-Boarding Template"
           organization: "Prudential"
           job_args:
+           inventory: "{{ event.payload.task.locationid }}"
            extra_vars:
-            task_number: "{{ event.payload.task.number_field | default('')  }}"
+            task_number: "{{ event.payload.task.number_field }}"
+     
 
    
        
