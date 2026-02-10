@@ -79,7 +79,7 @@
       condition: event.payload.task.summary is search("CrowdStrike")
       action:
         run_job_template:
-         name: "CrowdStrike_Onboarding_Unix_PROD"
+         name: "Crowdstrike_Onboarding_PROD"
          organization: "Prudential"
          job_args:
            inventory: "{{ event.payload.task.locationid }}"
