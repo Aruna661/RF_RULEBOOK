@@ -23,10 +23,21 @@
          
 
     - name: trigger playbook for Backup server
-      condition: event.payload.task.summary is search("Backup Configuration")
+      condition: event.payload.task.summary is search("Backup Configuration") and event.payload.task.locationid != 6
       action:
         run_workflow_template:
          name: "backup task"
+         organization: "Default"
+         job_args:
+           inventory: "{{ event.payload.task.locationid }}"
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+
+    - name: trigger playbook for Backup server
+      condition: event.payload.task.summary is search("Backup Configuration") and event.payload.task.locationid == 6
+      action:
+        run_workflow_template:
+         name: "backup task MY"
          organization: "Default"
          job_args:
            inventory: "{{ event.payload.task.locationid }}"
