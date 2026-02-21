@@ -8,7 +8,7 @@
 
   rules:
     - name: trigger playbook for CyberArk Offboadring
-      condition: event.payload.task.summary is search("To remove local pruadmin / administrator id from CyberArk")
+      condition: event.payload.task.summary is search("Remove user from CyberArk")
       action:
         run_workflow_template:
           name: "CyberArk Offboadring"
@@ -22,84 +22,84 @@
       condition: event.payload.task.summary is search("To move to Sync OU")
       action:
         run_workflow_template:
-          name: "backup task PROD"
+          name: "backup task PROD" # Change it
           organization: "Default"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
 
-    - name: trigger playbook for DNS check
+    - name: trigger playbook for To perform SCCM Console
       condition: event.payload.task.summary is search("To perform SCCM Console")
       action:
         run_workflow_template:
-          name: "DNS A Record Creation WorkFlow PROD"
+          name: "SCCM Offboarding"
           organization: "Default"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
 
-    - name: trigger playbook for free ip allocation
+    - name: trigger playbook for To delete from VmWare
       condition: event.payload.task.summary is search("To delete from VmWare")
       action:
         run_job_template:
-          name: "Free_Ip_Allocation_PROD"
+          name: "Free_Ip_Allocation_PROD" # Change it
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
 
-    - name: trigger playbook for os config
-      condition: event.payload.task.summary is search("Take the full backup and then remove server from backup configuration. Keep the retention as per Prudential Backup policy for decommission servers.")
+    - name: trigger playbook for Backup Removal
+      condition: event.payload.task.summary is search("Backup Removal")
       action:
         run_job_template:
-          name: "Windows_Os_Config_PROD"
+          name: "Windows_Os_Config_PROD" # Change
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
 
-    - name: trigger playbook for SCCM
+    - name: trigger playbook for To remove the server from ePO
       condition: event.payload.task.summary is search("To remove the server from ePO")
       action:
         run_job_template:
-          name: "SCCM_Onboarding_PROD"
+          name: "Test" #  Whet needs to be done check on monday
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
 
-    - name: trigger playbook for Forcepoint
+    - name: trigger playbook for To remove BMC
       condition: event.payload.task.summary is search("To remove BMC")
       action:
         run_job_template:
-          name: "Forcepoint_Onboarding_PROD"
+          name: "BMC Monitoring Offboarding"
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
 
-    - name: trigger playbook for Crowdstrike
+    - name: trigger playbook for decommissioned in CMDB
       condition: event.payload.task.summary is search("To mark the affected CI’s as decommissioned in CMDB")
       action:
         run_job_template:
-          name: "Crowdstrike_Onboarding_PROD"
+          name: "Remedy CMDB Offboarding"
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
 
-    - name: trigger playbook for Dynatrace
-      condition: event.payload.task.summary is search("To remove the computer from Nessus / Qualys scan.")
+    - name: trigger playbook for Satellite
+      condition: event.payload.task.summary is search("To remove host from satellite")
       actions:
         - run_job_template:
-            name: "Dynatrace_Installation_PROD"
+            name: "Satellite Offboarding Unix UAT"
             organization: "Prudential"
             job_args:
               inventory: "{{ event.payload.task.locationid }}"
@@ -110,7 +110,7 @@
       condition: event.payload.task.summary is search("To remove the affected CI’s in BMC Discovery tools")
       action:
         run_job_template:
-          name: "Discovery_Onboarding_PROD"
+          name: "Discovery Offboarding"
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
