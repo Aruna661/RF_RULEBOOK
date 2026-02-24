@@ -1,5 +1,5 @@
 ---
-- name: Remedyforce webhook listener for Offboadring
+- name: Remedyforce webhook listener for shutdown
   hosts: localhost
   sources:
     - ansible.eda.webhook:
