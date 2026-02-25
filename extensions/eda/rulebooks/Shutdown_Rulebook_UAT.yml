@@ -63,8 +63,8 @@
     - name: trigger playbook for Backup Disable
       condition: event.payload.task.summary is search("Request to stop the backup")
       action:
-        run_job_template:
-          name: "Backup_Disable_Shutdown" # Change
+        run_workflow_template:
+          name: "Backup_Shutdown" # Change
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
