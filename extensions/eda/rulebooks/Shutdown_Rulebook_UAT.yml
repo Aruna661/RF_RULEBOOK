@@ -7,28 +7,29 @@
         port: 5234
 
   rules:
-    - name: Trigger Playbook for Windows/Unix shutdown
-      condition: event.payload.task.summary is search("Server shutdown & decommission")
+ 
+
+
+    - name: Trigger Discovery scan shutdown
+      condition: event.payload.task.summary is search("Request to remove the device from Discovery scan")
       action:
-        run_job_template:
+      - run_job_template:
           name: "VM_shutdown_UAT"
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
-
-
-    - name: Trigger Discovery scan shutdown
-      condition: event.payload.task.summary is search("Request to remove the device from Discovery scan")
-      action:
-        run_job_template:
+              
+      - run_job_template:
           name: "Discovery_Shutdown_UAT"
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
+              
+      
 
     - name: trigger playbook for CMDB inactive status change
       condition: event.payload.task.summary is search("Request to change the status to Inactive in CMDB")
