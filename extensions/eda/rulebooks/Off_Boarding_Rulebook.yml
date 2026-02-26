@@ -10,8 +10,8 @@
     - name: trigger playbook for CyberArk Offboadring
       condition: event.payload.task.summary is search("Remove user from CyberArk")
       action:
-        run_workflow_template:
-          name: "CyberArk Offboadring"
+        run_job_template:
+          name: "CyberArk Offboardring"
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
@@ -21,8 +21,8 @@
     - name: trigger playbook for To move to Sync OU
       condition: event.payload.task.summary is search("To move to Sync OU")
       action:
-        run_workflow_template:
-          name: "backup task PROD" # Change it
+        run_job_template:
+          name: "AD Offboarding" # Change it
           organization: "Default"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
@@ -32,9 +32,9 @@
     - name: trigger playbook for To perform SCCM Console
       condition: event.payload.task.summary is search("To perform SCCM Console")
       action:
-        run_workflow_template:
+        run_job_template:
           name: "SCCM Offboarding"
-          organization: "Default"
+          organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
@@ -43,8 +43,8 @@
     - name: trigger playbook for To delete from VmWare
       condition: event.payload.task.summary is search("To delete from VmWare")
       action:
-        run_job_template:
-          name: "Free_Ip_Allocation_PROD" # Change it
+        run_workflow_template:
+          name: "offboarding VM - unix/wintel-UAT" # Change it
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
@@ -54,8 +54,8 @@
     - name: trigger playbook for Backup Removal
       condition: event.payload.task.summary is search("Backup Removal")
       action:
-        run_job_template:
-          name: "Windows_Os_Config_PROD" # Change
+        run_workflow_template:
+          name: "Offboarding backup workflow UAT" # Change
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
@@ -66,7 +66,7 @@
       condition: event.payload.task.summary is search("To remove the server from ePO")
       action:
         run_job_template:
-          name: "Test" #  Whet needs to be done check on monday
+          name: "DNS A record Removal" #  Whet needs to be done check on monday
           organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
