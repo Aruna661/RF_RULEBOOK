@@ -23,7 +23,7 @@
       action:
         run_job_template:
           name: "AD Offboarding" # Change it
-          organization: "Default"
+          organization: "Prudential"
           job_args:
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
