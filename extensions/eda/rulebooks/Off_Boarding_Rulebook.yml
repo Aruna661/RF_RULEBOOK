@@ -8,7 +8,7 @@
 
   rules:
     - name: trigger playbook for CyberArk Offboadring
-      condition: event.payload.task.summary is search("To remove local pruadmin or administrator id from CyberArk.")
+      condition: event.payload.task.summary is search("Remove user from CyberArk")
       action:
         run_job_template:
           name: "CyberArk Offboardring"
