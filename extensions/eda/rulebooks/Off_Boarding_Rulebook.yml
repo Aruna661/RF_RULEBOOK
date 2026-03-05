@@ -63,7 +63,7 @@
               task_number: "{{ event.payload.task.number_field }}"
 
     - name: trigger playbook for To remove the server from ePO
-      condition: event.payload.task.summary is search("To remove the server from ePO")
+      condition: event.payload.task.summary is search("To delete from DNS")
       action:
         run_job_template:
           name: "DNS A record Removal" #  Whet needs to be done check on monday
@@ -74,7 +74,7 @@
               task_number: "{{ event.payload.task.number_field }}"
 
     - name: trigger playbook for To remove BMC
-      condition: event.payload.task.summary is search("To remove BMC")
+      condition: event.payload.task.summary is search("Remove from Truesight")
       action:
         run_job_template:
           name: "BMC Monitoring Offboarding"
@@ -96,7 +96,7 @@
               task_number: "{{ event.payload.task.number_field }}"
 
     - name: trigger playbook for Satellite
-      condition: event.payload.task.summary is search("To remove host from satellite")
+      condition: event.payload.task.summary is search("Satellite Offboarding")
       actions:
         - run_job_template:
             name: "Satellite Offboarding Unix UAT"
