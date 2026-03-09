@@ -1,0 +1,76 @@
+---
+- name: Remedyforce webhook listener for shutdown
+  hosts: localhost
+  sources:
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5233
+
+  rules:
+ 
+
+
+    - name: Trigger Discovery scan shutdown
+      condition: event.payload.task.summary is search("Request to remove the device from Discovery scan")
+      actions:
+      - run_job_template:
+          name: "VM_shutdown_PROD"
+          organization: "Prudential"
+          job_args:
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
+              
+      - run_job_template:
+          name: "Discovery_Shutdown_PROD"
+          organization: "Prudential"
+          job_args:
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
+              
+      
+
+    - name: trigger playbook for CMDB inactive status change
+      condition: event.payload.task.summary is search("Request to change the status to Inactive in CMDB")
+      action:
+        run_job_template:
+          name: "CMDB_Inactive_PROD" # Change it
+          organization: "Prudential"
+          job_args:
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
+
+    - name: trigger playbook for Monitoring
+      condition: event.payload.task.summary is search("Monitoring")
+      actions:
+       - run_job_template:
+          name: "Monitoring_Shutdown_PROD"
+          organization: "Prudential"
+          job_args:
+           inventory: "{{ event.payload.task.locationid }}"
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+       - run_job_template:
+          name: "Dynatrace_Shutdown_PROD"
+          organization: "Prudential"
+          job_args:
+           inventory: "{{ event.payload.task.locationid }}"
+           extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
+
+    - name: trigger playbook for Backup Disable
+      condition: event.payload.task.summary is search("Request to stop the backup")
+      action:
+        run_workflow_template:
+          name: "Backup_Shutdown_PROD" # Change
+          organization: "Prudential"
+          job_args:
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
+
+      
+
+  
