@@ -131,13 +131,13 @@
             #task_description: "{{ event.payload.task.description | default('')|string  }}"
             #summary: "{{ event.payload.task.summary | default('')|string  }}"
 
-       - run_workflow_template:
-           name: "Patrol Agent Installation Workflow PROD"
-           organization: "Default"
-           job_args:
-            inventory: "{{ event.payload.task.locationid }}"
-            extra_vars:
-              task_number: "{{ event.payload.task.number_field }}"
+      # - run_workflow_template:
+      #     name: "Patrol Agent Installation Workflow PROD"
+      #     organization: "Default"
+      #     job_args:
+      #      inventory: "{{ event.payload.task.locationid }}"
+      #      extra_vars:
+      #        task_number: "{{ event.payload.task.number_field }}"
      
 
     - name: trigger playbook for Discovery on boarding
