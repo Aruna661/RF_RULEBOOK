@@ -98,13 +98,13 @@
            inventory: "{{ event.payload.task.locationid }}"
            extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
-       - run_workflow_template:
-          name: "linux patrol agent installation -workflow-PROD"
-          organization: "Default"
-          job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-              task_number: "{{ event.payload.task.number_field }}"
+       #- run_workflow_template:
+       #   name: "linux patrol agent installation -workflow-PROD"
+       #   organization: "Default"
+       #   job_args:
+       #    inventory: "{{ event.payload.task.locationid }}"
+       #    extra_vars:
+       #       task_number: "{{ event.payload.task.number_field }}"
 
     - name: trigger playbook for Discovery on boarding
       condition: event.payload.task.summary is search("Helix Discovery Scanning")
