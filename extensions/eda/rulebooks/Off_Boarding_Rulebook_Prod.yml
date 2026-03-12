@@ -63,7 +63,7 @@
               task_number: "{{ event.payload.task.number_field }}"
 
     - name: trigger playbook for To remove the server from ePO
-      condition: event.payload.task.summary is search("To delete from DNS")
+      condition: event.payload.task.summary is search("To delete from DNS.")
       action:
         run_job_template:
           name: "DNS A record Removal_PROD" #  Not Complete
