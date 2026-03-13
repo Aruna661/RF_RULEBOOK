@@ -75,14 +75,25 @@
      
            
 
-    - name: trigger playbook for SCCM
-      condition: event.payload.task.summary is search("SCCM OR Package")
+    - name: trigger playbook for SCCM SG or HK
+      condition: event.payload.task.summary is search("SCCM OR Package") and event.payload.task.locationid != 4
       action:
         run_job_template:
          name: "SCCM_Onboarding_PROD"
          organization: "Prudential"
          job_args:
           inventory: "{{ event.payload.task.locationid }}"
+          extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+
+    - name: trigger playbook for SCCM MY
+      condition: event.payload.task.summary is search("SCCM OR Package") and event.payload.task.locationid == 4
+      action:
+        run_job_template:
+         name: "SCCM_Onboarding_PROD"
+         organization: "Prudential"
+         job_args:
+          inventory: 6
           extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
      
