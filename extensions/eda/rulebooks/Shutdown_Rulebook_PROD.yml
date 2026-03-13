@@ -42,8 +42,8 @@
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
 
-    - name: trigger playbook for Monitoring
-      condition: event.payload.task.summary is search("Monitoring")
+    - name: trigger playbook for Monitoring SG and HK
+      condition: event.payload.task.summary is search("Monitoring") and event.payload.task.locationid != 4
       actions:
        - run_job_template:
           name: "Monitoring_Shutdown_PROD"
@@ -60,8 +60,26 @@
            extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
 
-    - name: trigger playbook for Backup Disable
-      condition: event.payload.task.summary is search("To disable and take full backup.")
+    - name: trigger playbook for Monitoring MY
+      condition: event.payload.task.summary is search("Monitoring") and event.payload.task.locationid == 4
+      actions:
+       - run_job_template:
+          name: "Monitoring_Shutdown_PROD_MY"
+          organization: "Prudential"
+          job_args:
+           inventory: 6
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+       - run_job_template:
+          name: "Dynatrace_Shutdown_PROD"
+          organization: "Prudential"
+          job_args:
+           inventory: "{{ event.payload.task.locationid }}"
+           extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
+
+    - name: trigger playbook for Backup Disable SG and HK
+      condition: event.payload.task.summary is search("To disable and take full backup.") and event.payload.task.locationid != 4
       action:
         run_workflow_template:
           name: "Backup_Shutdown_PROD" # Change
@@ -71,6 +89,16 @@
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
 
+    - name: trigger playbook for Backup Disable MY
+      condition: event.payload.task.summary is search("To disable and take full backup.") and event.payload.task.locationid == 4
+      action:
+        run_workflow_template:
+          name: "Backup_Shutdown_PROD_MY" # Change
+          organization: "Prudential"
+          job_args:
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
       
 
   
