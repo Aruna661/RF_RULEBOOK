@@ -74,14 +74,22 @@
            
     - name: trigger playbook for os config
       condition: event.payload.task.summary is search("OS Configuration")
-      action:
-        run_job_template:
+      actions:
+      - run_job_template:
          name: "OS_Config_Unix_PROD"
          organization: "Prudential"
          job_args:
            inventory: "{{ event.payload.task.locationid }}"
            extra_vars:
             task_number: "{{ event.payload.task.number_field }}"
+       - run_job_template:
+          name: "Dynatrace_Unix_Onboarding_PROD"
+          organization: "Prudential"
+          job_args:
+           inventory: "{{ event.payload.task.locationid }}"
+           extra_vars:
+            task_number: "{{ event.payload.task.number_field }}"
+            
      
           
 
@@ -100,10 +108,10 @@
             
 
     - name: trigger playbook for Monitoring
-      condition: event.payload.task.summary is search("OS Configuration")
+      condition: event.payload.task.summary is search("Monitoring")
       actions:
        - run_job_template:
-          name: "Dynatrace_Unix_Onboarding_PROD"
+          name: "Dynatrace_API_check_unix_PROD"
           organization: "Prudential"
           job_args:
            inventory: "{{ event.payload.task.locationid }}"
