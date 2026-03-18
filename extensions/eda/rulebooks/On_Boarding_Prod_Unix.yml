@@ -1,207 +1,160 @@
-
 ---
 - name: Remedyforce webhook listener
   hosts: localhost
-
   sources:
     - ansible.eda.webhook:
         host: 0.0.0.0
         port: 5064
-
   rules:
     - name: trigger playbook for vm build
       condition: event.payload.task.summary is search("Base image Server Build")
       action:
         run_workflow_template:
-         name: "Base_Image_Build_Unix_PROD"
-         organization: "Default"
-         job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-     
-         
-
+          name: Base_Image_Build_Unix_PROD
+          organization: Default
+          job_args:
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for Backup server
-      condition: event.payload.task.summary is search("Backup Configuration") and event.payload.task.locationid != 4
+      condition: event.payload.task.summary is search("Backup Configuration") and
+        event.payload.task.locationid != 4
       action:
         run_workflow_template:
-         name: "backup task PROD"
-         organization: "Default"
-         job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-
+          name: backup task PROD
+          organization: Default
+          job_args:
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for Backup server MY
-      condition: event.payload.task.summary is search("Backup Configuration") and event.payload.task.locationid == 4
+      condition: event.payload.task.summary is search("Backup Configuration") and
+        event.payload.task.locationid == 4
       action:
         run_workflow_template:
-         name: "backup task PROD MY"
-         organization: "Default"
-         job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-     
-           
-
+          name: backup task PROD MY
+          organization: Default
+          job_args:
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for DNS check
-      condition: event.payload.task.summary is search("To register server in DNS. - Enrolment on Scanning Tool")
+      condition: event.payload.task.summary is search("To register server in DNS. -
+        Enrolment on Scanning Tool")
       action:
         run_workflow_template:
-         name: "DNS A Record Creation WorkFlow PROD"
-         organization: "Default"
-         job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-     
-          
-
-            
+          name: DNS A Record Creation WorkFlow PROD
+          organization: Default
+          job_args:
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for free ip allocation
       condition: event.payload.task.summary is search("IP Address Update")
       action:
         run_job_template:
-         name: "Free_Ip_Allocation_PROD"
-         organization: "Prudential"
-         job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-     
-           
+          name: Free_Ip_Allocation_PROD
+          organization: Prudential
+          job_args:
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for os config
       condition: event.payload.task.summary is search("OS Configuration")
       actions:
-      - run_job_template:
-         name: "OS_Config_Unix_PROD"
-         organization: "Prudential"
-         job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-       - run_job_template:
-          name: "Dynatrace_Unix_Onboarding_PROD"
-          organization: "Prudential"
-          job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-            
-     
-          
-
-
+        - run_job_template:
+            name: OS_Config_Unix_PROD
+            organization: Prudential
+            job_args:
+              inventory: "{{ event.payload.task.locationid }}"
+              extra_vars:
+                task_number: "{{ event.payload.task.number_field }}"
+        - run_job_template:
+            name: Dynatrace_Unix_Onboarding_PROD
+            organization: Prudential
+            job_args:
+              inventory: "{{ event.payload.task.locationid }}"
+              extra_vars:
+                task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for Crowdstrike
       condition: event.payload.task.summary is search("CrowdStrike")
       action:
         run_job_template:
-         name: "Crowdstrike_Onboarding_PROD"
-         organization: "Prudential"
-         job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-     
-            
-
+          name: Crowdstrike_Onboarding_PROD
+          organization: Prudential
+          job_args:
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for Monitoring
       condition: event.payload.task.summary is search("Monitoring")
       actions:
-       - run_job_template:
-          name: "Dynatrace_API_check_unix_PROD"
-          organization: "Prudential"
-          job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-       #- run_workflow_template:
-       #   name: "linux patrol agent installation -workflow-PROD"
-       #   organization: "Default"
-       #   job_args:
-       #    inventory: "{{ event.payload.task.locationid }}"
-       #    extra_vars:
-       #       task_number: "{{ event.payload.task.number_field }}"
-
+        - run_job_template:
+            name: Dynatrace_API_check_unix_PROD
+            organization: Prudential
+            job_args:
+              inventory: "{{ event.payload.task.locationid }}"
+              extra_vars:
+                task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for Discovery on boarding
       condition: event.payload.task.summary is search("Helix Discovery Scanning")
       action:
-         run_job_template:
-          name: "Discovery_Onboarding_PROD"
-          organization: "Prudential"
+        run_job_template:
+          name: Discovery_Onboarding_PROD
+          organization: Prudential
           job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-     
-            
-
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for CMDB status update
-      condition: event.payload.task.summary is search("CMDB Status update to 'Being Assembled'")
+      condition: event.payload.task.summary is search("CMDB Status update to 'Being
+        Assembled'")
       action:
-         run_job_template:
-          name: "CMDB_Onboarding_Status_PROD"
-          organization: "Prudential"
+        run_job_template:
+          name: CMDB_Onboarding_Status_PROD
+          organization: Prudential
           job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-     
-
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for CMDB status live update
       condition: event.payload.task.summary is search("Live")
       action:
-         run_job_template:
-          name: "CMDB_live_Onboarding_PROD"
-          organization: "Prudential"
+        run_job_template:
+          name: CMDB_live_Onboarding_PROD
+          organization: Prudential
           job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-     
-            
-            
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for Cyberark PID onboarding
       condition: event.payload.task.summary is search("Enroll PID in CyberArk")
       action:
-         run_job_template:
-          name: "CyberArk_Unix_Onboarding_PROD"
-          organization: "Prudential"
+        run_job_template:
+          name: CyberArk_Unix_Onboarding_PROD
+          organization: Prudential
           job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-     
-
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for Splunk task
-      condition: event.payload.task.summary is search("Request to register the server in the Splunk")
+      condition: event.payload.task.summary is search("Request to register the server
+        in the Splunk")
       action:
-         run_job_template:
-          name: "Splunk_On_Boarding_PROD"
-          organization: "Prudential"
+        run_job_template:
+          name: Splunk_On_Boarding_PROD
+          organization: Prudential
           job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-     
-
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for Qualys task
       condition: event.payload.task.summary is search("Request for Qualys Update")
       action:
-         run_job_template:
-          name: "Qualys_Unix_Onboarding_PROD"
-          organization: "Prudential"
+        run_job_template:
+          name: Qualys_Unix_Onboarding_PROD
+          organization: Prudential
           job_args:
-           inventory: "{{ event.payload.task.locationid }}"
-           extra_vars:
-            task_number: "{{ event.payload.task.number_field }}"
-     
-
-   
-       
-           
-            #summary: "{{ event.payload.task.summary | default('')|string  }}"
-    
-  
+            inventory: "{{ event.payload.task.locationid }}"
+            extra_vars:
+              task_number: "{{ event.payload.task.number_field }}"
