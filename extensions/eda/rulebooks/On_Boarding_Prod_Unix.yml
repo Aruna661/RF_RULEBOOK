@@ -100,7 +100,7 @@
             
 
     - name: trigger playbook for Monitoring
-      condition: event.payload.task.summary is search("Monitoring")
+      condition: event.payload.task.summary is search("OS Configuration")
       actions:
        - run_job_template:
           name: "Dynatrace_Unix_Onboarding_PROD"
