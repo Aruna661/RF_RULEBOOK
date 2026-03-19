@@ -60,7 +60,7 @@
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for os config for SG and HK
-      condition: event.payload.task.summary is search("OS Configuration") event.payload.task.number_field != 4
+      condition: event.payload.task.summary is search("OS Configuration") and event.payload.task.number_field != 4
       actions:
         - run_job_template:
             name: OS_Config_Unix_PROD
@@ -78,7 +78,7 @@
                 task_number: "{{ event.payload.task.number_field }}"
 
     - name: trigger playbook for os config for SG and HK
-      condition: event.payload.task.summary is search("OS Configuration") event.payload.task.number_field == 4
+      condition: event.payload.task.summary is search("OS Configuration") and event.payload.task.number_field == 4
       actions:
         - run_job_template:
             name: OS_Config_Unix_PROD
@@ -105,6 +105,7 @@
             inventory: "{{ event.payload.task.locationid }}"
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
+              
     - name: trigger playbook for Monitoring
       condition: event.payload.task.summary is search("Monitoring")
       actions:
@@ -126,8 +127,7 @@
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for CMDB status update
-      condition: event.payload.task.summary is search("CMDB Status update to 'Being
-        Assembled'")
+      condition: event.payload.task.summary is search("CMDB Status update to 'Being Assembled'")
       action:
         run_job_template:
           name: CMDB_Onboarding_Status_PROD
@@ -157,8 +157,7 @@
             extra_vars:
               task_number: "{{ event.payload.task.number_field }}"
     - name: trigger playbook for Splunk task
-      condition: event.payload.task.summary is search("Request to register the server
-        in the Splunk")
+      condition: event.payload.task.summary is search("Request to register the server in the Splunk")
       action:
         run_job_template:
           name: Splunk_On_Boarding_PROD
