@@ -77,7 +77,7 @@
               extra_vars:
                 task_number: "{{ event.payload.task.number_field }}"
 
-    - name: trigger playbook for os config for SG and HK
+    - name: trigger playbook for os config for MY
       condition: event.payload.task.summary is search("OS Configuration") and event.payload.task.number_field == 4
       actions:
         - run_job_template:
